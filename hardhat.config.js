@@ -21,14 +21,10 @@ module.exports = {
       chainId: 1337,
     },
     testnet: {
-      url: process.env.TESTNET_RPC_URL || "https://1rpc.io/sepolia",
+      url: process.env.TESTNET_RPC_URL,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 11155111, // Sepolia
-    },
-    mainnet: {
-      url: process.env.MAINNET_RPC_URL || "",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 1,
+      chainId: 11155111, // Sepolia testnet
+      timeout: 60000, // 60 seconds timeout
     },
   },
   gasReporter: {

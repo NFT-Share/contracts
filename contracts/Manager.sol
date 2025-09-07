@@ -3,7 +3,6 @@ pragma solidity ^0.8.24;
 
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {NFTShares} from "./NFTShares.sol";
-import {NFTRegistry} from "./NFTRegistry.sol";
 
 contract Manager {
     IERC721 public nft;
@@ -14,6 +13,35 @@ contract Manager {
     uint256 public nftPrice; // price of the NFT in wei
     uint256 public maxSellablePercentage; // maximum percentage that can be sold
     bool public nftTransferred; // tracks if NFT has been transferred to contract
+
+    // Events for indexing
+    event NFTShared(
+        address indexed nftContract,
+        uint256 indexed tokenId,
+        address indexed managerContract,
+        address firstOwner,
+        uint256 nftPrice,
+        uint256 maxSellablePercentage
+    );
+
+    event NFTPurchased(
+        address indexed managerContract,
+        address indexed buyer,
+        uint256 percentage,
+        uint256 cost
+    );
+
+    event PriceUpdated(
+        address indexed managerContract,
+        uint256 oldPrice,
+        uint256 newPrice
+    );
+
+    event MaxSellableUpdated(
+        address indexed managerContract,
+        uint256 oldMax,
+        uint256 newMax
+    );
 
     constructor(
         address _nft,
@@ -35,6 +63,16 @@ contract Manager {
         // Set the manager address in the shares token
         sharesToken.setManager(address(this));
         nftTransferred = false; // NFT not yet transferred
+
+        // Emit NFT shared event
+        emit NFTShared(
+            _nft,
+            _tokenId,
+            address(this),
+            firstNFTOwner,
+            _nftPrice,
+            _maxSellablePercentage
+        );
 
         // Note: NFT transfer will be done after deployment via transferNFTToContract function
     }
@@ -60,7 +98,10 @@ contract Manager {
             msg.sender == firstNFTOwner,
             "Only first owner can update price"
         );
+        uint256 oldPrice = nftPrice;
         nftPrice = _newPrice;
+
+        emit PriceUpdated(address(this), oldPrice, _newPrice);
     }
 
     // Update maximum sellable percentage (only first owner)
@@ -75,7 +116,11 @@ contract Manager {
             "Cannot set max below already sold amount"
         );
         require(_newMaxPercentage <= 100, "Cannot set max above 100%");
+
+        uint256 oldMax = maxSellablePercentage;
         maxSellablePercentage = _newMaxPercentage;
+
+        emit MaxSellableUpdated(address(this), oldMax, _newMaxPercentage);
     }
 
     // Buy percentage of NFT
@@ -112,6 +157,9 @@ contract Manager {
         if (msg.value > cost) {
             payable(msg.sender).transfer(msg.value - cost);
         }
+
+        // Emit purchase event
+        emit NFTPurchased(address(this), msg.sender, _percentage, cost);
     }
 
     // Query functions
