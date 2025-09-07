@@ -15,8 +15,8 @@ const CONFIG = {
   // Contract Addresses (Sepolia Testnet)
   CONTRACTS: {
     NFTRegistry: "0x74d24760573516672b93d3B252407DB66Ec6b445",
-    Manager: "0x68481fe2458F06c3F10Ae6CD7Ef889bA19E19544",
-    NFTShares: "0xDA809A7B74229b892471A8Dbe407993c91f810A4",
+    Manager: "0x9eB4C5E5a8f4891afDeCe633aA1d63906802C820", // Latest deployment
+    NFTShares: "0x533C22F18caf4Aa7E5B635Ab92f8d9a3F5791545", // Latest deployment
     NFTContract: "0x018394653bCB2e06886fdA8EbCF297F93307c285"
   },
 
@@ -24,7 +24,7 @@ const CONFIG = {
   TEST_ADDRESSES: {
     firstOwner: "0x355bC79D9D58d9cfb9abEda3aa8A25e7A87b809d",
     buyer: "0x742d35Cc6634C0532925a3b8D0C0E1C2C5E5C5E5", // Example buyer address
-    tokenId: 3
+    tokenId: 4 // Updated to match latest deployment
   },
 
   // Default Values

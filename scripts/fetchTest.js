@@ -13,17 +13,18 @@ require('dotenv').config();
  */
 
 // Contract addresses from deployments
+const CONFIG = require("./config");
 const CONTRACT_ADDRESSES = {
-    NFTRegistry: "0x74d24760573516672b93d3B252407DB66Ec6b445",
-    Manager: "0x68481fe2458F06c3F10Ae6CD7Ef889bA19E19544",
-    NFTShares: "0xDA809A7B74229b892471A8Dbe407993c91f810A4",
-    NFTContract: "0x018394653bCB2e06886fdA8EbCF297F93307c285"
+    NFTRegistry: CONFIG.CONTRACTS.NFTRegistry,
+    Manager: CONFIG.CONTRACTS.Manager,
+    NFTShares: CONFIG.CONTRACTS.NFTShares,
+    NFTContract: CONFIG.CONTRACTS.NFTContract
 };
 
 // Test addresses (you can modify these for testing)
 const TEST_ADDRESSES = {
     firstOwner: "0x355bC79D9D58d9cfb9abEda3aa8A25e7A87b809d",
-    buyer: "0x742d35Cc6634C0532925a3b8D0C0E1C2C5E5C5E5", // Example buyer address
+    buyer: "0x3e8D06DAdd55e2c4601338d2a885768D9Ed7f38a", // Example buyer address
     tokenId: 3
 };
 
